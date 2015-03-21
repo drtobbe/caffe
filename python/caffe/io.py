@@ -239,6 +239,8 @@ class Transformer:
         """
         self.__check_input(in_)
         ms = mean.shape
+        print "ms: %g" % len(ms)
+        print ms
         if mean.ndim == 1:
             # broadcast channels
             if ms[0] != self.inputs[in_][1]:
@@ -251,7 +253,12 @@ class Transformer:
             if len(ms) != 3:
                 raise ValueError('Mean shape invalid')
             if ms != self.inputs[in_][1:]:
-                raise ValueError('Mean shape incompatible with input shape.')
+                print(self.inputs[in_])
+                in_shape = self.inputs[in_][1:]
+                m_min, m_max = mean.min(), mean.max()
+                normal_mean = (mean - m_min) / (m_max - m_min)
+                mean = resize_image(normal_mean.transpose((1,2,0)),in_shape[1:]).transpose((2,0,1)) * (m_max - m_min) + m_min
+                # raise ValueError('Mean shape incompatible with input shape.')
         self.mean[in_] = mean
 
 
