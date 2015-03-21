@@ -1,0 +1,48 @@
+    6  sudo apt-get install build-essential
+    8  sudo apt-get install linux-headers-`uname -r`
+    9  cd /media/tobbe/VBOXADDITIONS_4.3.26_98988/
+   11  sudo ./VBoxLinuxAdditions.run 
+   12  sudo reboot
+   26  sudo apt-get install vim
+   37  sudo apt-get -y install git
+   39  git --version
+   40  java -version
+   63  sudo apt-get install curl
+   66  cd Downloads/
+   67  curl -O "http://developer.download.nvidia.com/compute/cuda/6_5/rel/installers/cuda_6.5.14_linux_64.run"
+   68  curl -O "http://developer.download.nvidia.com/compute/cuda/7_0/Prod/local_installers/cuda_7.0.28_linux.run"
+   71  sudo ./cuda_6.5.14_linux_64.run --kernel-source-path=/usr/src/linux-headers-`uname -r`
+   72  echo $LD_LIBRARY_PATH
+   74  echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64:/usr/local/lib' >> ~/.bashrc
+   75  source .bashrc 
+   76  echo $LD_LIBRARY_PATH
+   77  sudo apt-get install -y libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libboost-all-dev libhdf5-serial-dev protobuf-compiler gfortran libjpeg62 libfreeimage-dev libatlas-base-dev git python-dev python-pip libgoogle-glog-dev libbz2-dev libxml2-dev libxslt-dev libffi-dev libssl-dev libgflags-dev liblmdb-dev python-yaml
+   78  python -V
+   79  sudo easy_install pillow
+   80  git clone https://github.com/BVLC/caffe.git
+   81  cd caffe/
+   82  more python/requirements.txt 
+   83  cat python/requirements.txt | xargs -L 1 sudo pip install
+   84  sudo ln -s /usr/include/python2.7/ /usr/local/include/python2.7
+   85  sudo ln -s /usr/local/lib/python2.7/dist-packages/numpy/core/include/numpy/ /usr/local/include/python2.7/numpy
+   86  cp Makefile.config.example Makefile.config
+   88  vim Makefile.config
+   89  make pycaffe
+   90  make all
+   91  make test
+
+   94  ./scripts/download_model_binary.py models/bvlc_reference_caffenet
+   95  ./data/ilsvrc12/get_ilsvrc_aux.sh
+
+   98  du -ksh models/*
+  100  python python/classify.py --print_results examples/images/cat.jpg foo
+  
+  103  sudo pip install scikit-image
+  
+  112  python python/classify.py --print_results examples/images/cat.jpg foo
+  126  xdg-open examples/images/cat.jpg 
+ 
+  131  more data/ilsvrc12/synset_words.txt 
+  157  python python/classify.py --print_results examples/images/fish-bike.jpg foo.txt
+  177  xdg-open examples/images/fish-bike.jpg 
+  
